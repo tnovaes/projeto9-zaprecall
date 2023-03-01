@@ -1,15 +1,36 @@
+import styled from 'styled-components';
+import { useState } from 'react';
 import logo from './assets/logo.png'
 import setaPlay from './assets/seta_play.png'
 import setaVirar from './assets/seta_virar.png'
-import styled from 'styled-components';
-import { useState } from 'react';
+import certo from './assets/icone_certo.png'
+import erro from './assets/icone_erro.png'
+import quase from './assets/icone_quase.png'
+
+
 
 export default function App() {
   const [aberta, setAberta] = useState(false);
   const [virada, setVirada] = useState(false);
+  const [respondida, setRespondida] = useState(false);
+  const [icone, setIcone] = useState(setaPlay)
   const vermelho = '#FF3030';
   const amarelo = '#FF922E';
   const verde = '#2FBE34';
+  
+
+  function escolherResposta(cor){
+    setAberta(false);
+    setVirada(false);
+    setRespondida(true);
+    if(cor === vermelho){
+      setIcone(erro);
+    } else if(cor === amarelo){
+      setIcone(quase);
+    } else{
+      setIcone(certo);
+    }
+  }
 
 
   return (
@@ -21,7 +42,7 @@ export default function App() {
       <Container>
         <CardFechado aberta={aberta}>
           <p>Pergunta 1</p>
-          <img src={setaPlay} onClick={() => setAberta(true)}/>
+          <img src={icone} onClick={() => !respondida && setAberta(true)}/>
         </CardFechado>
         <CardPergunta aberta={aberta} virada={virada}>
           <p>Pergunta</p>
@@ -30,9 +51,9 @@ export default function App() {
         <CardResposta virada={virada}>
           <p>Resposta</p>
           <ContainerBotoes>
-            <Botao cor={vermelho}>Não lembrei</Botao>
-            <Botao cor={amarelo}>Quase não lembrei</Botao>
-            <Botao cor={verde}>Zap!</Botao>
+            <Botao cor={vermelho} onClick={() => escolherResposta(vermelho)}>Não lembrei</Botao>
+            <Botao cor={amarelo} onClick={() => escolherResposta(amarelo)}>Quase não lembrei</Botao>
+            <Botao cor={verde} onClick={() => escolherResposta(verde)}>Zap!</Botao>
           </ContainerBotoes>
         </CardResposta>
       </Container>
