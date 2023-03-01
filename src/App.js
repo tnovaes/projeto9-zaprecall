@@ -1,7 +1,17 @@
 import logo from './assets/logo.png'
+import setaPlay from './assets/seta_play.png'
+import setaVirar from './assets/seta_virar.png'
 import styled from 'styled-components';
+import { useState } from 'react';
 
 export default function App() {
+  const [aberta, setAberta] = useState(false);
+  const [virada, setVirada] = useState(false);
+  const vermelho = '#FF3030';
+  const amarelo = '#FF922E';
+  const verde = '#2FBE34';
+
+
   return (
     <Tela>
       <Header>
@@ -9,12 +19,22 @@ export default function App() {
         <h1>ZapRecall</h1>
       </Header>
       <Container>
-        <div className="Pergunta">
-          Pergunta 1
-        </div>
-        <div className="Pergunta">
-          Pergunta 2
-        </div>
+        <CardFechado aberta={aberta}>
+          <p>Pergunta 1</p>
+          <img src={setaPlay} onClick={() => setAberta(true)}/>
+        </CardFechado>
+        <CardPergunta aberta={aberta} virada={virada}>
+          <p>Pergunta</p>
+          <img src={setaVirar} onClick={() => setVirada(true)}/>
+        </CardPergunta>
+        <CardResposta virada={virada}>
+          <p>Resposta</p>
+          <ContainerBotoes>
+            <Botao cor={vermelho}>Não lembrei</Botao>
+            <Botao cor={amarelo}>Quase não lembrei</Botao>
+            <Botao cor={verde}>Zap!</Botao>
+          </ContainerBotoes>
+        </CardResposta>
       </Container>
       <Footer>
         0/4 Concluídos
@@ -66,4 +86,66 @@ const Footer = styled.div`
   align-items: center;
   justify-content: center;
   background-color: #FFFFFF;
+`
+const CardFechado = styled.div`
+  width:300px;
+  height:65px;
+  padding:15px;
+  background:#FFFFFF;
+  box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+  display:${props => props.aberta ? 'none' : 'flex'};
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom:25px;
+`
+const CardPergunta = styled.div`
+  width:300px;
+  height:131px;
+  padding:15px;
+  background:#FFFFD4;
+  box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+  margin-bottom:25px;
+  position: relative;
+  img{
+    width:30px;
+    height:20px;
+    position: absolute;
+    bottom: 8px;
+    right: 15px;
+  }
+  display:${props => props.aberta ? (props.virada ? 'none' : 'flex') : 'none'};
+`
+
+const CardResposta = styled.div`
+  width:300px;
+  height:131px;
+  padding:15px;
+  background:#FFFFD4;
+  box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+  margin-bottom:25px;
+  display:flex;
+  flex-direction: column;
+  justify-content: space-between;
+  display:${props => props.virada ? 'flex' : 'none'};
+  
+`
+
+const ContainerBotoes = styled.div`
+  display:flex;
+  justify-content: space-between;
+`
+const Botao = styled.button`
+  width:85px;
+  border: 1px solid;
+  border-radius:5px;
+  color:#FFFFFF;
+  background-color: ${props => props.cor};
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  padding:5px;
+
 `
