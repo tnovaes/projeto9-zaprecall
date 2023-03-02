@@ -7,46 +7,49 @@ import certo from './assets/icone_certo.png'
 import erro from './assets/icone_erro.png'
 import quase from './assets/icone_quase.png'
 
-
-
 export default function App() {
   const [aberta, setAberta] = useState(false);
   const [virada, setVirada] = useState(false);
   const [respondida, setRespondida] = useState(false);
   const [icone, setIcone] = useState(setaPlay)
+  const [corTexto, setCorTexto] = useState('#333333')
+  const [placar, setPlacar] = useState(0)
   const vermelho = '#FF3030';
   const amarelo = '#FF922E';
   const verde = '#2FBE34';
-  
 
-  function escolherResposta(cor){
+  function escolherResposta(cor) {
     setAberta(false);
     setVirada(false);
     setRespondida(true);
-    if(cor === vermelho){
+    const novoPlacar = placar + 1;
+    setPlacar(novoPlacar);
+    if (cor === vermelho) {
       setIcone(erro);
-    } else if(cor === amarelo){
+      setCorTexto(vermelho)
+    } else if (cor === amarelo) {
       setIcone(quase);
-    } else{
+      setCorTexto(amarelo)
+    } else {
       setIcone(certo);
+      setCorTexto(verde)
     }
   }
-
 
   return (
     <Tela>
       <Header>
-        <img src={logo} alt="logo"/>
+        <img src={logo} alt="logo" />
         <h1>ZapRecall</h1>
       </Header>
       <Container>
-        <CardFechado aberta={aberta}>
+        <CardFechado aberta={aberta} respondida={respondida} corTexto={corTexto}>
           <p>Pergunta 1</p>
-          <img src={icone} onClick={() => !respondida && setAberta(true)}/>
+          <img src={icone} onClick={() => !respondida && setAberta(true)} />
         </CardFechado>
         <CardPergunta aberta={aberta} virada={virada}>
           <p>Pergunta</p>
-          <img src={setaVirar} onClick={() => setVirada(true)}/>
+          <img src={setaVirar} onClick={() => setVirada(true)} />
         </CardPergunta>
         <CardResposta virada={virada}>
           <p>Resposta</p>
@@ -58,7 +61,7 @@ export default function App() {
         </CardResposta>
       </Container>
       <Footer>
-        0/4 Concluídos
+        {placar}/4 Conclúidos
       </Footer>
     </Tela>
   );
@@ -88,7 +91,12 @@ const Header = styled.div`
   }
   h1{
     height:44px;
-    font-size:36px;
+    font-family: 'Righteous';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 45px;
+    color:#FFFFFF;
   }
 `
 
@@ -108,6 +116,7 @@ const Footer = styled.div`
   justify-content: center;
   background-color: #FFFFFF;
 `
+
 const CardFechado = styled.div`
   width:300px;
   height:65px;
@@ -119,7 +128,17 @@ const CardFechado = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-bottom:25px;
+  p {
+    font-family: 'Recursive';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19px;
+    color: ${props => props.corTexto};
+    text-decoration: ${props => props.respondida ? 'line-through' : 'none'}
+  }
 `
+
 const CardPergunta = styled.div`
   width:300px;
   height:131px;
@@ -129,6 +148,14 @@ const CardPergunta = styled.div`
   border-radius: 5px;
   margin-bottom:25px;
   position: relative;
+  p {
+    font-family: 'Recursive';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    color: #333333;
+  }
   img{
     width:30px;
     height:20px;
@@ -150,6 +177,14 @@ const CardResposta = styled.div`
   display:flex;
   flex-direction: column;
   justify-content: space-between;
+  p {
+    font-family: 'Recursive';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    color: #333333;
+  }
   display:${props => props.virada ? 'flex' : 'none'};
   
 `
@@ -158,6 +193,7 @@ const ContainerBotoes = styled.div`
   display:flex;
   justify-content: space-between;
 `
+
 const Botao = styled.button`
   width:85px;
   border: 1px solid;
