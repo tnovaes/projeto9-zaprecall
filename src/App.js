@@ -45,12 +45,13 @@ const Tela = styled.div`
 
 const Header = styled.div`
   width:100%;
+  height: 100px;
   display:flex;
   align-items: center;
   justify-content: center;
   position:fixed;
-  top:48px;
   left:0;
+  padding-top:48px;
   gap:20px;
   img{
     width:52px;
@@ -71,6 +72,8 @@ const Header = styled.div`
 
 const Container = styled.div`
   margin-top:153px;
+  margin-bottom: 109px;
+  overflow-y: hidden;
 `
 
 const Footer = styled.div`
