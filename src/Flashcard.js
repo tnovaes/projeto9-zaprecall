@@ -6,7 +6,7 @@ import certo from './assets/icone_certo.png';
 import erro from './assets/icone_erro.png';
 import quase from './assets/icone_quase.png';
 
-export default function Flashcard({question, answer, indice, placar, setPlacar}){
+export default function Flashcard({ question, answer, indice, placar, setPlacar }) {
     const [aberta, setAberta] = useState(false);
     const [virada, setVirada] = useState(false);
     const [respondida, setRespondida] = useState(false);
@@ -23,36 +23,36 @@ export default function Flashcard({question, answer, indice, placar, setPlacar})
         const novoPlacar = placar + 1;
         setPlacar(novoPlacar);
         if (cor === vermelho) {
-          setIcone(erro);
-          setCorTexto(vermelho)
+            setIcone(erro);
+            setCorTexto(vermelho)
         } else if (cor === amarelo) {
-          setIcone(quase);
-          setCorTexto(amarelo)
+            setIcone(quase);
+            setCorTexto(amarelo)
         } else {
-          setIcone(certo);
-          setCorTexto(verde)
+            setIcone(certo);
+            setCorTexto(verde)
         }
-      }
+    }
 
-    return(
-        <>
-        <CardFechado aberta={aberta} respondida={respondida} corTexto={corTexto}>
-          <p data-test="flashcard-text">Pergunta {indice}</p>
-          <img data-test="play-btn" src={icone} onClick={() => !respondida && setAberta(true)} />
-        </CardFechado>
-        <CardPergunta aberta={aberta} virada={virada}>
-          <p data-test="flashcard-text">{question}</p>
-          <img data-test="turn-btn" src={setaVirar} onClick={() => setVirada(true)} />
-        </CardPergunta>
-        <CardResposta virada={virada}>
-          <p data-test="flashcard-text">{answer}</p>
-          <ContainerBotoes>
-            <Botao data-test="no-btn" cor={vermelho} onClick={() => escolherResposta(vermelho)}>Não lembrei</Botao>
-            <Botao data-test="partial-btn" cor={amarelo} onClick={() => escolherResposta(amarelo)}>Quase não lembrei</Botao>
-            <Botao data-test="zap-btn" cor={verde} onClick={() => escolherResposta(verde)}>Zap!</Botao>
-          </ContainerBotoes>
-        </CardResposta>
-        </>
+    return (
+        <div data-test="flash-card">
+            <CardFechado aberta={aberta} respondida={respondida} corTexto={corTexto}>
+                <p data-test="flashcard-text">Pergunta {indice}</p>
+                <img data-test="play-btn" src={icone} onClick={() => !respondida && setAberta(true)} />
+            </CardFechado>
+            <CardPergunta aberta={aberta} virada={virada}>
+                <p data-test="flashcard-text">{question}</p>
+                <img data-test="turn-btn" src={setaVirar} onClick={() => setVirada(true)} />
+            </CardPergunta>
+            <CardResposta virada={virada}>
+                <p data-test="flashcard-text">{answer}</p>
+                <ContainerBotoes>
+                    <Botao data-test="no-btn" cor={vermelho} onClick={() => escolherResposta(vermelho)}>Não lembrei</Botao>
+                    <Botao data-test="partial-btn" cor={amarelo} onClick={() => escolherResposta(amarelo)}>Quase não lembrei</Botao>
+                    <Botao data-test="zap-btn" cor={verde} onClick={() => escolherResposta(verde)}>Zap!</Botao>
+                </ContainerBotoes>
+            </CardResposta>
+        </div>
     );
 }
 
