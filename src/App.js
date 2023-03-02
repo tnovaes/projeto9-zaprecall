@@ -26,7 +26,7 @@ export default function App() {
         <h1>ZapRecall</h1>
       </Header>
       <Container>
-        {cards.map((p,i) => <Flashcard data-test="flash-card" question={p.question} answer={p.answer} indice={i+1} placar={placar} setPlacar={setPlacar} />)}
+        {cards.map((p,i) => <Flashcard question={p.question} answer={p.answer} indice={i+1} placar={placar} setPlacar={setPlacar} />)}
       </Container>
       <Footer data-test="footer">
         {placar}/{cards.length} Conclúidos
