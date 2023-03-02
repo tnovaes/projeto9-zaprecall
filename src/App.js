@@ -86,4 +86,9 @@ const Footer = styled.div`
   align-items: center;
   justify-content: center;
   background-color: #FFFFFF;
+  font-family: 'Recursive';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
 `
