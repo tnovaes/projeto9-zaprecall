@@ -107,7 +107,8 @@ const CardPergunta = styled.div`
 
 const CardResposta = styled.div`
   width:300px;
-  height:131px;
+  min-height:131px;
+  gap:15px;
   padding:15px;
   background:#FFFFD4;
   box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.15);
