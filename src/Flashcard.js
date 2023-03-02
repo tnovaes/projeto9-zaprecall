@@ -11,6 +11,7 @@ export default function Flashcard({ question, answer, indice, placar, setPlacar 
     const [virada, setVirada] = useState(false);
     const [respondida, setRespondida] = useState(false);
     const [icone, setIcone] = useState(setaPlay);
+    const [iconeDataTest, setIconeDataTest] = useState('play-btn');
     const [corTexto, setCorTexto] = useState('#333333');
     const vermelho = '#FF3030';
     const amarelo = '#FF922E';
@@ -24,21 +25,24 @@ export default function Flashcard({ question, answer, indice, placar, setPlacar 
         setPlacar(novoPlacar);
         if (cor === vermelho) {
             setIcone(erro);
-            setCorTexto(vermelho)
+            setIconeDataTest('no-icon');
+            setCorTexto(vermelho);
         } else if (cor === amarelo) {
             setIcone(quase);
+            setIconeDataTest('partial-icon');
             setCorTexto(amarelo)
         } else {
             setIcone(certo);
-            setCorTexto(verde)
+            setIconeDataTest('zap-icon');
+            setCorTexto(verde);
         }
     }
 
     return (
-        <div data-test="flash-card">
+        <div data-test="flashcard">
             <CardFechado aberta={aberta} respondida={respondida} corTexto={corTexto}>
                 <p data-test="flashcard-text">Pergunta {indice}</p>
-                <img data-test="play-btn" src={icone} onClick={() => !respondida && setAberta(true)} />
+                <img data-test={iconeDataTest} src={icone} onClick={() => !respondida && setAberta(true)} />
             </CardFechado>
             <CardPergunta aberta={aberta} virada={virada}>
                 <p data-test="flashcard-text">{question}</p>
