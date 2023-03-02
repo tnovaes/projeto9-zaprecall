@@ -1,40 +1,23 @@
 import styled from 'styled-components';
 import { useState } from 'react';
-import logo from './assets/logo.png'
-import setaPlay from './assets/seta_play.png'
-import setaVirar from './assets/seta_virar.png'
-import certo from './assets/icone_certo.png'
-import erro from './assets/icone_erro.png'
-import quase from './assets/icone_quase.png'
+import logo from './assets/logo.png';
+import Flashcard from './Flashcard';
+
 
 export default function App() {
-  const [aberta, setAberta] = useState(false);
-  const [virada, setVirada] = useState(false);
-  const [respondida, setRespondida] = useState(false);
-  const [icone, setIcone] = useState(setaPlay)
-  const [corTexto, setCorTexto] = useState('#333333')
-  const [placar, setPlacar] = useState(0)
-  const vermelho = '#FF3030';
-  const amarelo = '#FF922E';
-  const verde = '#2FBE34';
+  
+  const [placar, setPlacar] = useState(0);
 
-  function escolherResposta(cor) {
-    setAberta(false);
-    setVirada(false);
-    setRespondida(true);
-    const novoPlacar = placar + 1;
-    setPlacar(novoPlacar);
-    if (cor === vermelho) {
-      setIcone(erro);
-      setCorTexto(vermelho)
-    } else if (cor === amarelo) {
-      setIcone(quase);
-      setCorTexto(amarelo)
-    } else {
-      setIcone(certo);
-      setCorTexto(verde)
-    }
-  }
+  const cards = [
+    { question: "O que é JSX?", answer: "Uma extensão da linguagem JavaScript" },
+    { question: "O React é __", answer: "Uma biblioteca JavaScript para construção de interfaces" },
+    { question: "Componentes devem iniciar com __", answer: "Letra maiúscula" },
+    { question: "Podemos colocar __ dentro do JSX", answer: "expressões" },
+    { question: "O ReactDOM nos ajuda __", answer: "Interagindo com a DOM para colocar componentes React na mesma" },
+    { question: "Usamos o npm para __", answer: "Gerenciar os pacotes necessários e suas dependências" },
+    { question: "Usamos props para __", answer: "Passar diferentes informações para componentes" },
+    { question: "Usamos estado (state) para __", answer: "Dizer para o React quais informações quando atualizadas devem renderizar a tela novamente" }
+  ];
 
   return (
     <Tela>
@@ -43,25 +26,10 @@ export default function App() {
         <h1>ZapRecall</h1>
       </Header>
       <Container>
-        <CardFechado aberta={aberta} respondida={respondida} corTexto={corTexto}>
-          <p>Pergunta 1</p>
-          <img src={icone} onClick={() => !respondida && setAberta(true)} />
-        </CardFechado>
-        <CardPergunta aberta={aberta} virada={virada}>
-          <p>Pergunta</p>
-          <img src={setaVirar} onClick={() => setVirada(true)} />
-        </CardPergunta>
-        <CardResposta virada={virada}>
-          <p>Resposta</p>
-          <ContainerBotoes>
-            <Botao cor={vermelho} onClick={() => escolherResposta(vermelho)}>Não lembrei</Botao>
-            <Botao cor={amarelo} onClick={() => escolherResposta(amarelo)}>Quase não lembrei</Botao>
-            <Botao cor={verde} onClick={() => escolherResposta(verde)}>Zap!</Botao>
-          </ContainerBotoes>
-        </CardResposta>
+        {cards.map((p,i) => <Flashcard data-test="flash-card" question={p.question} answer={p.answer} indice={i+1} placar={placar} setPlacar={setPlacar} />)}
       </Container>
-      <Footer>
-        {placar}/4 Conclúidos
+      <Footer data-test="footer">
+        {placar}/{cards.length} Conclúidos
       </Footer>
     </Tela>
   );
@@ -69,7 +37,6 @@ export default function App() {
 
 const Tela = styled.div`
   width:100vw;
-  height:100vh;
   display:flex;
   flex-direction:column;
   align-items: center;
@@ -98,10 +65,11 @@ const Header = styled.div`
     line-height: 45px;
     color:#FFFFFF;
   }
+  z-index: 1;
+  background-color: #FB6B6B;
 `
 
 const Container = styled.div`
-  height:700px;
   margin-top:153px;
 `
 
@@ -115,94 +83,4 @@ const Footer = styled.div`
   align-items: center;
   justify-content: center;
   background-color: #FFFFFF;
-`
-
-const CardFechado = styled.div`
-  width:300px;
-  height:65px;
-  padding:15px;
-  background:#FFFFFF;
-  box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.15);
-  border-radius: 5px;
-  display:${props => props.aberta ? 'none' : 'flex'};
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom:25px;
-  p {
-    font-family: 'Recursive';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 19px;
-    color: ${props => props.corTexto};
-    text-decoration: ${props => props.respondida ? 'line-through' : 'none'}
-  }
-`
-
-const CardPergunta = styled.div`
-  width:300px;
-  height:131px;
-  padding:15px;
-  background:#FFFFD4;
-  box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.15);
-  border-radius: 5px;
-  margin-bottom:25px;
-  position: relative;
-  p {
-    font-family: 'Recursive';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 22px;
-    color: #333333;
-  }
-  img{
-    width:30px;
-    height:20px;
-    position: absolute;
-    bottom: 8px;
-    right: 15px;
-  }
-  display:${props => props.aberta ? (props.virada ? 'none' : 'flex') : 'none'};
-`
-
-const CardResposta = styled.div`
-  width:300px;
-  height:131px;
-  padding:15px;
-  background:#FFFFD4;
-  box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.15);
-  border-radius: 5px;
-  margin-bottom:25px;
-  display:flex;
-  flex-direction: column;
-  justify-content: space-between;
-  p {
-    font-family: 'Recursive';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 22px;
-    color: #333333;
-  }
-  display:${props => props.virada ? 'flex' : 'none'};
-  
-`
-
-const ContainerBotoes = styled.div`
-  display:flex;
-  justify-content: space-between;
-`
-
-const Botao = styled.button`
-  width:85px;
-  border: 1px solid;
-  border-radius:5px;
-  color:#FFFFFF;
-  background-color: ${props => props.cor};
-  display:flex;
-  align-items: center;
-  justify-content: center;
-  padding:5px;
-
 `
